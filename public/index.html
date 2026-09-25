@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Akriti AI Booking Agent | Maihar</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Top Header Bar -->
+  <header class="top-header">
+    <div class="brand-container">
+      <img src="https://hotelakriti.com/assets/images/logo-hotel-Akriti.png" alt="Hotel Akriti Logo" class="brand-logo">
+      <div class="brand-title">
+        <h1>Hotel Akriti Restaurant And Lodge</h1>
+        <p>Maihar, Madhya Pradesh | Official AI Reservation Desk</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="contact-pill">
+        <i class="fa-solid fa-phone"></i> 07674-234272
+      </div>
+      <a href="https://wa.me/919165039666?text=Hello!%20I%20want%20to%20book%20a%20room%20at%20Hotel%20Akriti" target="_blank" class="whatsapp-btn">
+        <i class="fa-brands fa-whatsapp"></i> WhatsApp Booking
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Application Container -->
+  <main class="app-container">
+    
+    <!-- Left Column: AI Agent Chat -->
+    <section class="chat-panel">
+      <div class="chat-header">
+        <div class="agent-profile">
+          <div class="avatar">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <div class="agent-info">
+            <h3>Akriti Booking Assistant</h3>
+            <div class="status-badge">
+              <span class="status-dot"></span> Online & Ready to Help
+            </div>
+          </div>
+        </div>
+        <button id="resetChatBtn" class="opt-btn" style="padding: 4px 10px; font-size: 0.75rem;">
+          <i class="fa-solid fa-rotate-right"></i> Reset Chat
+        </button>
+      </div>
+
+      <!-- Messages Area -->
+      <div class="chat-messages" id="chatMessages">
+        <!-- Messages dynamically injected here -->
+      </div>
+
+      <!-- Chat Input Area -->
+      <div class="chat-input-area">
+        <input type="text" id="userInput" class="chat-input" placeholder="Type your room requirements or ask a question..." autocomplete="off">
+        <button id="sendBtn" class="send-btn" title="Send Message">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Right Column: Multi-Step Interactive Booking Wizard -->
+    <aside class="booking-panel">
+      <div class="panel-tabs">
+        <button class="tab-btn active" id="tabFormBtn" onclick="switchTab('formTab')">
+          <i class="fa-solid fa-list-check"></i> Multi-Step Wizard
+        </button>
+        <button class="tab-btn" id="tabRoomsBtn" onclick="switchTab('roomsTab')">
+          <i class="fa-solid fa-bed"></i> Rooms & Rates
+        </button>
+        <button class="tab-btn" id="tabPlacesBtn" onclick="switchTab('placesTab')">
+          <i class="fa-solid fa-gopuram"></i> Maihar Sightseeing
+        </button>
+      </div>
+
+      <!-- Tab 1: Multi-Step Wizard Form -->
+      <div class="tab-content" id="formTab">
+        
+        <!-- Step Progress Indicator Bar -->
+        <div class="stepper-progress">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+          
+          <div class="step-node active" id="stepNode1" onclick="goToStep(1)">
+            <div class="step-circle">1</div>
+            <div class="step-label">Room</div>
+          </div>
+          
+          <div class="step-node" id="stepNode2" onclick="goToStep(2)">
+            <div class="step-circle">2</div>
+            <div class="step-label">Guest</div>
+          </div>
+          
+          <div class="step-node" id="stepNode3" onclick="goToStep(3)">
+            <div class="step-circle">3</div>
+            <div class="step-label">Contact</div>
+          </div>
+          
+          <div class="step-node" id="stepNode4" onclick="goToStep(4)">
+            <div class="step-circle">4</div>
+            <div class="step-label">Address</div>
+          </div>
+
+          <div class="step-node" id="stepNode5" onclick="goToStep(5)">
+            <div class="step-circle">5</div>
+            <div class="step-label">Review</div>
+          </div>
+        </div>
+
+        <form id="reservationForm">
+          
+          <!-- STEP 1: Dates & Room Selection -->
+          <div class="form-step active" id="stepContent1">
+            <div class="step-title-box">
+              <h3>Step 1: Dates & Room Choice</h3>
+              <p>Select your check-in dates and preferred room type</p>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label><i class="fa-solid fa-calendar-day"></i> Check-In Date</label>
+                <input type="date" id="check_in_date" name="check_in_date" required>
+              </div>
+              <div class="form-group">
+                <label><i class="fa-solid fa-calendar-xmark"></i> Check-Out Date</label>
+                <input type="date" id="check_out_date" name="check_out_date" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fa-solid fa-hotel"></i> Room Type</label>
+              <select id="room_type" name="room_type" required onchange="onRoomSelectChange()">
+                <option value="">-- Select Room Type --</option>
+                <option value="17" selected>Double Bed (₹1200)</option>
+                <option value="18">Double Bed AC Deluxe (₹1600)</option>
+                <option value="19">Double Bed AC (₹1500)</option>
+                <option value="20">Family Bed (₹1800)</option>
+                <option value="21">Family Bed AC (₹1800)</option>
+                <option value="224">Family Deluxe (₹2400)</option>
+                <option value="225">Triple Bed (₹2200)</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label><i class="fa-solid fa-user-group"></i> Total Adults</label>
+                <select id="total_adults" name="total_adults" required>
+                  <option value="1">1 Adult</option>
+                  <option value="2" selected>2 Adults</option>
+                  <option value="3">3 Adults</option>
+                  <option value="4">4 Adults</option>
+                  <option value="5">5 Adults</option>
+                  <option value="6">6 Adults</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label><i class="fa-solid fa-child"></i> Children (0-15 Yrs)</label>
+                <select id="total_child" name="total_child">
+                  <option value="0" selected>0 Children</option>
+                  <option value="1">1 Child</option>
+                  <option value="2">2 Children</option>
+                  <option value="3">3 Children</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fa-solid fa-indian-rupee-sign"></i> Estimated Amount (INR)</label>
+              <input type="text" id="total_amount" name="total_amount" readonly value="1200" style="background:#fffbe8; font-weight:700; color:#c99e32; font-size:1.1rem;">
+            </div>
+
+            <div class="step-actions">
+              <button type="button" class="btn-step-next" onclick="nextStep(1)">
+                Next: Guest Info <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Guest Details -->
+          <div class="form-step" id="stepContent2">
+            <div class="step-title-box">
+              <h3>Step 2: Guest Details</h3>
+              <p>Provide primary guest identification details for check-in</p>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" id="first_name" name="first_name" placeholder="Enter First Name" required>
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="last_name" name="last_name" placeholder="Enter Last Name" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Identification Type</label>
+              <select id="id_type_slect" name="id_type_slect" required>
+                <option value="" selected>-- Select Government ID --</option>
+                <option value="aadhar_card">Aadhar Card</option>
+                <option value="voter_id">Voter ID</option>
+                <option value="driver_license">Driving License</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Enter ID Card Number</label>
+              <input type="text" id="id_card_number" name="id_card_number" placeholder="Enter ID Number" required>
+            </div>
+
+            <div class="step-actions">
+              <button type="button" class="btn-step-prev" onclick="prevStep(2)">
+                <i class="fa-solid fa-arrow-left"></i> Back
+              </button>
+              <button type="button" class="btn-step-next" onclick="nextStep(2)">
+                Next: Contact Details <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Contact Info -->
+          <div class="form-step" id="stepContent3">
+            <div class="step-title-box">
+              <h3>Step 3: Contact Details</h3>
+              <p>Enter your phone number and email for booking confirmation</p>
+            </div>
+
+            <div class="form-group">
+              <label>Mobile Number</label>
+              <input type="tel" id="mobile_number" name="mobile_number" maxlength="10" placeholder="10-digit Mobile Number" required>
+            </div>
+
+            <div class="form-group">
+              <label>Confirm Mobile Number</label>
+              <input type="tel" id="con_mobile_number" name="con_mobile_number" maxlength="10" placeholder="Confirm Mobile Number" required>
+            </div>
+
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="email_id" name="email_id" placeholder="name@example.com" required>
+            </div>
+
+            <div class="form-group">
+              <label>Confirm Email Address</label>
+              <input type="email" id="con_email_id" name="con_email_id" placeholder="Confirm Email Address" required>
+            </div>
+
+            <div class="step-actions">
+              <button type="button" class="btn-step-prev" onclick="prevStep(3)">
+                <i class="fa-solid fa-arrow-left"></i> Back
+              </button>
+              <button type="button" class="btn-step-next" onclick="nextStep(3)">
+                Next: Address <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 4: Address Details -->
+          <div class="form-step" id="stepContent4">
+            <div class="step-title-box">
+              <h3>Step 4: Address Details</h3>
+              <p>Enter your postal address</p>
+            </div>
+
+            <div class="form-group">
+              <label>Address Line 1</label>
+              <input type="text" id="address_1" name="address_1" placeholder="House/Flat/Street" required>
+            </div>
+
+            <div class="form-group">
+              <label>Address Line 2 (Optional)</label>
+              <input type="text" id="address_2" name="address_2" placeholder="Landmark/Locality">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>City</label>
+                <input type="text" id="city" name="city" placeholder="City" required>
+              </div>
+              <div class="form-group">
+                <label>State</label>
+                <input type="text" id="state" name="state" placeholder="State (e.g. MP)" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Country</label>
+                <select id="country" name="country" required>
+                  <option value="india" selected>India</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Pin Code</label>
+                <input type="text" id="pin_code" name="pin_code" maxlength="6" placeholder="6-digit Pincode" required>
+              </div>
+            </div>
+
+            <div class="step-actions">
+              <button type="button" class="btn-step-prev" onclick="prevStep(4)">
+                <i class="fa-solid fa-arrow-left"></i> Back
+              </button>
+              <button type="button" class="btn-step-next" onclick="nextStep(4)">
+                Next: Review Booking <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 5: Summary Review & Submit -->
+          <div class="form-step" id="stepContent5">
+            <div class="step-title-box">
+              <h3>Step 5: Review & Confirm</h3>
+              <p>Verify your details before official submission</p>
+            </div>
+
+            <div class="summary-card" id="summaryCard">
+              <!-- Summary populated dynamically -->
+            </div>
+
+            <div class="step-actions">
+              <button type="button" class="btn-step-prev" onclick="prevStep(5)">
+                <i class="fa-solid fa-arrow-left"></i> Edit Details
+              </button>
+              <button type="submit" class="submit-booking-btn">
+                <i class="fa-solid fa-circle-check"></i> Complete & Submit Reservation
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Tab 2: Rooms Catalog -->
+      <div class="tab-content" id="roomsTab" style="display: none;">
+        <div id="roomsContainer">
+          <!-- Room Cards dynamically rendered -->
+        </div>
+      </div>
+
+      <!-- Tab 3: Maihar Sightseeing -->
+      <div class="tab-content" id="placesTab" style="display: none;">
+        <div id="placesContainer">
+          <!-- Places dynamically rendered -->
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- Confirmation Modal / Booking Voucher -->
+  <div class="modal-overlay" id="receiptModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="success-icon">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 style="color: #1e293b; font-size: 1.4rem;">Booking Confirmed!</h2>
+        <p style="color: #64748b; font-size: 0.85rem; margin-top: 4px;">Hotel Akriti Restaurant And Lodge, Maihar</p>
+      </div>
+
+      <div class="receipt-grid" id="receiptDetails">
+        <!-- Details injected here -->
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeModal()">Close</button>
+        <button class="btn-primary" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Voucher</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="agent.js"></script>
+</body>
+</html>
