@@ -14,6 +14,14 @@
 
 ---
 
+## 🎥 Application Interface Preview
+
+<div align="center">
+  <img src="public/hotel-agent-preview.jpg" alt="Hotel Akriti AI Booking Agent Live Interface Preview" width="100%" style="border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);">
+</div>
+
+---
+
 ## 🌟 Overview
 
 The **Hotel Akriti AI Booking Agent** is an intelligent, multi-step reservation system built specifically for travellers and pilgrims visiting **Maa Sharda Devi Temple** in Maihar. It provides a conversational AI assistant on the left panel alongside a 5-step interactive reservation wizard on the right panel.
